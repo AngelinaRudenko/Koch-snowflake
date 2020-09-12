@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.Drawing.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace KochSnowflake
 {
     public partial class MainForm : Form
     {
+        Bitmap bitmap;
         Graphics g;
 
         public MainForm()
@@ -30,23 +36,17 @@ namespace KochSnowflake
                 iterations--;
 
                 MyPoint pt13AB = Get13Point(A, B); //Координата 1/3 отрезка AB
-                MyPoint pt23AB = Get23Point(A, B); //Координата 2/3 отрезка AB
-
-                DrawLine(A, pt13AB); //Рисуем
-                DrawLine(pt23AB, B); // _ _
+                MyPoint pt23AB = Get23Point(A, B); //Координата 2/3 отрезка AB              
 
                 if (iterations != 0) //Если предвидятся итерации, то происходит расчет координат
                 {
+                    Fractal(A, pt13AB, iterations);
+                    Fractal(pt23AB, B, iterations);
+
                     //----------------------------------
                     //MyPoint X = GetThirdPoint(pt13AB, pt23AB); //X - вершина будующего треугольника
                     MyPoint X = GetThirdPointWithRotationMatrix(pt13AB, pt23AB);
                     //----------------------------------
-
-                    MyPoint pt13AX = Get13Point(pt13AB, X); //Координата 1/3 отрезка (от 1/3 AB до X)
-                    MyPoint pt23AX = Get23Point(pt13AB, X); //Координата 2/3 отрезка (от 1/3 AB до X)
-
-                    MyPoint pt13XB = Get13Point(pt23AB, X); //Координата 1/3 отрезка (от 2/3 AB до X)
-                    MyPoint pt23XB = Get23Point(pt23AB, X); //Координата 2/3 отрезка (от 2/3 AB до X)
 
                     Fractal(pt13AB, X, iterations); //Тут происходит рекурсия, тем самым пускаются ветки
                     Fractal(X, pt23AB, iterations);
@@ -54,6 +54,9 @@ namespace KochSnowflake
                 else
                 {
                     Fractal(pt13AB, pt23AB, iterations);
+
+                    DrawLine(A, pt13AB); //Рисуем
+                    DrawLine(pt23AB, B); // _ _
                 }
             }
         }
@@ -109,11 +112,23 @@ namespace KochSnowflake
             stopWatch.Start();
 
             g = CreateGraphics();
+
+            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            g.CompositingQuality = CompositingQuality.HighQuality;
+            g.SmoothingMode = SmoothingMode.HighQuality;
+            g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+            g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+            bitmap = new Bitmap(1920, 1080, PixelFormat.Format32bppArgb);
+            bitmap.SetResolution(300, 300);
+            g = Graphics.FromImage(bitmap);
+
             g.Clear(Color.Black);
-            float x = 6 * MainForm.ActiveForm.Width / 10;
-            float y = MainForm.ActiveForm.Height / 10;
-            float x2 = 6 * MainForm.ActiveForm.Width / 10;
-            float y2 = 9 * (MainForm.ActiveForm.Height - 20) / 10;
+
+            float x = 6 * bitmap.Width / 10;
+            float y = bitmap.Height / 10;
+            float x2 = 6 * bitmap.Width / 10;
+            float y2 = 9 * bitmap.Height / 10;
             MyPoint A = new MyPoint(x, y);
             MyPoint B = new MyPoint(x2, y2);
             MyPoint C = GetThirdPoint(A, B);
@@ -131,6 +146,8 @@ namespace KochSnowflake
                 Fractal(C, A, iterations);
             }
 
+            this.BackgroundImage = bitmap;
+
             stopWatch.Stop();
             TimeSpan ts = stopWatch.Elapsed;
 
@@ -138,7 +155,12 @@ namespace KochSnowflake
             string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
                 ts.Hours, ts.Minutes, ts.Seconds,
                 ts.Milliseconds / 10);
-            MessageBox.Show("Затраченное время: " + elapsedTime);
+            labelSpent.Text = "Затраченное время: " + elapsedTime;
+        }
+
+        private void buttonSave_Click(object sender, EventArgs e)
+        {
+            bitmap.Save("Result.png", ImageFormat.Png);
         }
     }
 }

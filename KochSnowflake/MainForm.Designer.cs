@@ -33,6 +33,8 @@
             this.panel = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.numericUpDownIterations = new System.Windows.Forms.NumericUpDown();
+            this.buttonSave = new System.Windows.Forms.Button();
+            this.labelSpent = new System.Windows.Forms.Label();
             this.panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownIterations)).BeginInit();
             this.SuspendLayout();
@@ -43,7 +45,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.radioButtonOutside.AutoSize = true;
             this.radioButtonOutside.ForeColor = System.Drawing.Color.Blue;
-            this.radioButtonOutside.Location = new System.Drawing.Point(39, 122);
+            this.radioButtonOutside.Location = new System.Drawing.Point(39, 109);
             this.radioButtonOutside.Name = "radioButtonOutside";
             this.radioButtonOutside.Size = new System.Drawing.Size(89, 24);
             this.radioButtonOutside.TabIndex = 0;
@@ -57,7 +59,7 @@
             this.radioButtonInside.AutoSize = true;
             this.radioButtonInside.Checked = true;
             this.radioButtonInside.ForeColor = System.Drawing.Color.Blue;
-            this.radioButtonInside.Location = new System.Drawing.Point(39, 92);
+            this.radioButtonInside.Location = new System.Drawing.Point(39, 79);
             this.radioButtonInside.Name = "radioButtonInside";
             this.radioButtonInside.Size = new System.Drawing.Size(88, 24);
             this.radioButtonInside.TabIndex = 1;
@@ -68,6 +70,8 @@
             // panel
             // 
             this.panel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel.BackColor = System.Drawing.Color.White;
+            this.panel.Controls.Add(this.buttonSave);
             this.panel.Controls.Add(this.label1);
             this.panel.Controls.Add(this.numericUpDownIterations);
             this.panel.Controls.Add(this.radioButtonInside);
@@ -80,7 +84,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(44, 23);
+            this.label1.Location = new System.Drawing.Point(44, 10);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(83, 20);
             this.label1.TabIndex = 3;
@@ -88,7 +92,7 @@
             // 
             // numericUpDownIterations
             // 
-            this.numericUpDownIterations.Location = new System.Drawing.Point(38, 53);
+            this.numericUpDownIterations.Location = new System.Drawing.Point(38, 40);
             this.numericUpDownIterations.Maximum = new decimal(new int[] {
             19,
             0,
@@ -109,13 +113,40 @@
             0,
             0});
             // 
+            // buttonSave
+            // 
+            this.buttonSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonSave.Location = new System.Drawing.Point(25, 139);
+            this.buttonSave.Name = "buttonSave";
+            this.buttonSave.Size = new System.Drawing.Size(127, 37);
+            this.buttonSave.TabIndex = 4;
+            this.buttonSave.Text = "Сохранить";
+            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+            // 
+            // labelSpent
+            // 
+            this.labelSpent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelSpent.BackColor = System.Drawing.Color.Transparent;
+            this.labelSpent.Font = new System.Drawing.Font("Consolas", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelSpent.ForeColor = System.Drawing.Color.Red;
+            this.labelSpent.Location = new System.Drawing.Point(12, 396);
+            this.labelSpent.Name = "labelSpent";
+            this.labelSpent.Size = new System.Drawing.Size(763, 42);
+            this.labelSpent.TabIndex = 5;
+            this.labelSpent.Text = "Для начала работы выберите кол-во итераций и кликните по окну";
+            this.labelSpent.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
+            this.BackColor = System.Drawing.Color.Black;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.labelSpent);
             this.Controls.Add(this.panel);
+            this.DoubleBuffered = true;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ЛР 3 Снежинка Коха";
@@ -135,6 +166,8 @@
         private System.Windows.Forms.Panel panel;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown numericUpDownIterations;
+        private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.Label labelSpent;
     }
 }
 
