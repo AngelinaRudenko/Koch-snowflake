@@ -18,9 +18,12 @@ namespace KochSnowflake
         {
             if (iterations == 0)
             {
-                MyPoint x = GetThirdPoint(A, B); //X - вершина будующего треугольника
-                DrawLine(A, x); //Рисуется /\
-                DrawLine(x, B);
+                //----------------------------------
+                //MyPoint X = GetThirdPoint(A, B); //X - вершина будующего треугольника
+                MyPoint X = GetThirdPointWithRotationMatrix(A, B);
+                //----------------------------------
+                DrawLine(A, X); //Рисуется /\
+                DrawLine(X, B);
             }
             else
             {
@@ -34,7 +37,10 @@ namespace KochSnowflake
 
                 if (iterations != 0) //Если предвидятся итерации, то происходит расчет координат
                 {
-                    MyPoint X = GetThirdPoint(pt13AB, pt23AB); //X - вершина будующего треугольника
+                    //----------------------------------
+                    //MyPoint X = GetThirdPoint(pt13AB, pt23AB); //X - вершина будующего треугольника
+                    MyPoint X = GetThirdPointWithRotationMatrix(pt13AB, pt23AB);
+                    //----------------------------------
 
                     MyPoint pt13AX = Get13Point(pt13AB, X); //Координата 1/3 отрезка (от 1/3 AB до X)
                     MyPoint pt23AX = Get23Point(pt13AB, X); //Координата 2/3 отрезка (от 1/3 AB до X)
@@ -72,6 +78,14 @@ namespace KochSnowflake
             point.Y = (float)((B.X - A.X) * sixtyGradusesSin + (B.Y - A.Y) * sixtyGradusesCos + A.Y);
             return point;
         }
+
+        //----------------------------------------------------------------------------------------
+        //Нахождение третьей точки равностороннего треугольника С ПОМОЩЬЮ МАТРИЦЫ ПРЕОБРАЗОВАНИЯ
+        private MyPoint GetThirdPointWithRotationMatrix(MyPoint A, MyPoint B)
+        {
+            return ForComputerGraphicsLesson.PerGraduses(A, B, 60); ;
+        }
+        //----------------------------------------------------------------------------------------
 
         private MyPoint Get13Point(MyPoint A, MyPoint B) //Нахождение 1/3 отрезка
         {
@@ -126,18 +140,5 @@ namespace KochSnowflake
                 ts.Milliseconds / 10);
             MessageBox.Show("Затраченное время: " + elapsedTime);
         }
-    }
-
-    public class MyPoint
-    {
-        public float X { get; set; }
-        public float Y { get; set; }
-
-        public MyPoint(float x, float y)
-        {
-            X = x;
-            Y = y;
-        }
-        public MyPoint() { }
     }
 }
